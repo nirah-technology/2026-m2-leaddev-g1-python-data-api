@@ -1,12 +1,12 @@
 {
     "color_filter": {
         "red": {
-            "min": 210,
-            "max": 255
+            "min": 100,
+            "max": 200
         },
         "green": {
-            "min": 0,
-            "max": 255
+            "min": 50,
+            "max": 200
         },
         "blue": {
             "min": 0,
