@@ -1,0 +1,16 @@
+{
+    "color_filter": {
+        "red": {
+            "min": 0,
+            "max": 255
+        },
+        "green": {
+            "min": 0,
+            "max": 255
+        },
+        "blue": {
+            "min": 0,
+            "max": 255
+        }
+    }
+}
