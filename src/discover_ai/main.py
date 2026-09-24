@@ -6,15 +6,19 @@ from .color_tracker import ColorFilter, ColorTracker
 
 def main():
     capture = cv2.VideoCapture("vehicle-flow.mp4")
+
+    fps = capture.get(cv2.CAP_PROP_FPS)
+    delay = int(1000/fps)
+
     is_streaming: bool = True
 
     # Instanciation en dehors de la boucle pour éviter de recréer les objets à chaque frame
     color_filter = ColorFilter()
-    color_tracker = ColorTracker.create()
 
-    zoom = 0.5
+    zoom = 0.65
 
     while is_streaming:
+        color_tracker = ColorTracker.create()
         has_frame, frame = capture.read()
         if has_frame:
             # Redimensionnement de l'image source
@@ -40,11 +44,11 @@ def main():
         else:
             capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
-        if cv2.waitKey(1) == ord('q'):
+        if cv2.waitKey(delay) == ord('q'):
             is_streaming = False
 
     capture.release()
     cv2.destroyAllWindows()
-    
+
 if (__name__ == "__main__"):
     main()

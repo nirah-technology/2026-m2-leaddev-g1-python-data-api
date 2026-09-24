@@ -43,7 +43,11 @@ class ColorTracker:
 class ColorFilter:
 
     def filter_color(self, frame, color_tracker: ColorTracker):
-        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+        # Flou pour atténuer les bruits sur l'image
+        blurred_frame = cv2.GaussianBlur(frame, (3,3), 0)
+
+        hsv_frame = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2HSV)
 
         min_filter_color = np.array([
                 color_tracker.blue.min,
@@ -59,6 +63,12 @@ class ColorFilter:
 
         mask = cv2.inRange(hsv_frame, min_filter_color, max_filter_color)
 
+        # Création du kernetl pour des petites zones
+        kernel = np.ones((5, 5), np.uint8)
+        # Application du kernel sur le mask inRange
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        # Flou pour adoucir les contour
+        mask = cv2.medianBlur(mask, 5)
         masked_frame = cv2.bitwise_and(frame, frame, mask=mask)
 
 
